@@ -39,6 +39,7 @@ class AssignStmtNode;
 class CallStmtNode;
 class DeclNode;
 class FromConsoleStmtNode;
+class IfStmtNode;
 class IfElseStmtNode;
 class PostDecStmtNode;
 class PostIncStmtNode;
@@ -193,7 +194,7 @@ public:
 		this->myLhs = lhs;
 		this->myRhs = rhs;
 	}
-	virtual void unparse(std::ostream& out, int indent) override = 0;
+	virtual void unparse(std::ostream& out, int indent) override;
 	virtual string myOp() = 0;
 
 private:
@@ -221,7 +222,7 @@ private:
 class CallExpNode : public ExpNode
 {
 public:
-	CallExpNode(IDNode* id, std::list<ExpNode>* ExpList) : ExpNode(id->line(), id->col())
+	CallExpNode(IDNode* id, std::list<ExpNode*>* ExpList) : ExpNode(id->line(), id->col())
 	{
 		myID = id;
 		myExpList = ExpList;
@@ -230,7 +231,7 @@ public:
 
 private:
 	IDNode* myID;
-	std::list<ExpNode>* myExpList;
+	std::list<ExpNode*>* myExpList;
 };
 
 
@@ -256,11 +257,25 @@ private:
 };
 
 
+class CharLitNode : public ExpNode
+{
+public:
+	CharLitNode(CharLitToken* token) : ExpNode(token->line(), token->col() )
+	{
+		myInt = token->val();
+	}
+	void unparse(std::ostream& out, int indent) override;
+
+private:
+	int myInt;
+};
+
+
 class LValNode : public ExpNode
 {
 public:
 	LValNode(IDNode* id) : ExpNode(id->line(), id->col()), myID(id){}
-	virtual void unparse(std::ostream& out, int indent) override = 0;
+	void unparse(std::ostream& out, int indent);
 
 private:
 	IDNode* myID;
@@ -350,16 +365,27 @@ private:
 };
 
 
+class IfStmtNode : public StmtNode{
+public:
+	IfStmtNode(ExpNode* exp, std::list<StmtNode*>* stmtList) : StmtNode(exp->line(), exp->col()), myExp(exp), myStmtList(stmtList){}
+	void unparse(std::ostream& out, int indent);
+
+private:
+	ExpNode* myExp;
+	std::list<StmtNode*>* myStmtList;
+};
+
+
 class IfElseStmtNode : public StmtNode
 {
 public:
 	IfElseStmtNode(ExpNode* exp, std::list<StmtNode*>* trueList, std::list<StmtNode*>* falseList) : StmtNode(exp->line(), exp->col()),
-		myExp(exp), myTList(trueList), myFList(falseList){}
+		myExp(exp), myTrueList(trueList), myFalseList(falseList){}
 	void unparse(std::ostream& out, int indent) override;
 private:
 	ExpNode* myExp;
-	std::list<StmtNode*>* myTList;
-	std::list<StmtNode*>* myFList;
+	std::list<StmtNode*>* myTrueList;
+	std::list<StmtNode*>* myFalseList;
 };
 
 
@@ -526,6 +552,13 @@ public:
 	void unparse(std::ostream& out, int indent) override;
 };
 
+class LessNode : public BinaryExpNode
+{
+public:
+	LessNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
+	string myOp() override { return "<"; }
+	void unparse(std::ostream& out, int indent) override;
+};
 
 class LessEqNode : public BinaryExpNode
 {
