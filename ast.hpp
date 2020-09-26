@@ -161,7 +161,7 @@ public:
 	virtual void unparse(std::ostream& out, int indent) = 0;
 	//TODO: consider adding an isRef to use in unparse to
 	// indicate if this is a reference type
-	virtual string GetType() = 0;
+  string GetType();
 private:
 	bool myIsReference;
 };
@@ -693,7 +693,7 @@ public:
 	VarDeclNode(size_t l, size_t c, TypeNode * type, IDNode * id)
 	: DeclNode(type->line(), type->col()), myType(type), myId(id){
 	}
-	virtual void unparse(std::ostream& out, int indent) override = 0;
+	void unparse(std::ostream& out, int indent);
 private:
 	TypeNode * myType;
 	IDNode * myId;
