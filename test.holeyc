@@ -1,33 +1,40 @@
-int main()
-{
-  int aXeR;
-  int b;
-  aXeR = 2;
-  b = aXeR;
-  b = -3;
-  b++;
-  b--;
-  bool z;
-  z = (false);
-  int i;
-  if(z)
-  {
-    b++;
-  }
-  else
-  {
+intptr a;
+int b;
+
+int a;
+int fn() {
+    int b;
+    a = 2 + 3 - 7 * -3 / (5 * 8 - 2);
+    bool c;
+    c = (true && false) || false;
+
+    while(1 == 1) {
+        int d;
+    }
+    FROMCONSOLE a;
+    TOCONSOLE 1;
+    a++;
+    b = a;
     b--;
-  }
-  intptr ptr;
-  boolptr bp;
-  bp = nullptr;
-  int val;
-  ptr = ^val;
-  @ptr = 4;
-  fn2(a, 'v);
+
+    if(a != b || c == c) {
+        TOCONSOLE "asdf";
+    }
+
+    if(a <= b || c == c) {
+        TOCONSOLE "asdf";
+    } else {
+        a = a + (b - 2);
+    }
+
+    boolptr bp;
+    bp = nullptr;
+
+    fn2(a, 'v);
+
 }
 
-bool fn2(int b, char c) {
-    TOCONSOLE 'b;
-    return(true);
+bool fn2(int a, char c) {
+    TOCONSOLE 'a;
+    return 100 == 100;
 }

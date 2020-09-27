@@ -347,9 +347,9 @@ static yyconst flex_int16_t yy_accept[150] =
        60,   60,   23,   24,   31,   28,   26,   30,   32,   52,
        25,   38,   42,   40,   17,   51,   51,   51,   51,   19,
        20,   18,   51,   51,   51,   51,   51,   51,   51,   51,
-       51,   21,   60,   22,   58,   57,   37,   54,   53,   56,
+       51,   21,   60,   22,   58,   57,   36,   54,   53,   56,
        59,   34,   49,   48,   50,   49,   46,   27,   29,   52,
-       39,   36,   41,   51,   51,   51,   51,   51,   51,   51,
+       39,   37,   41,   51,   51,   51,   51,   51,   51,   51,
        51,    8,   51,   51,   51,   51,   51,   35,   56,   54,
        47,   44,   45,   43,   51,   51,   51,   51,   51,   51,
        51,    1,   51,   51,   51,   51,   56,   55,   56,   54,
@@ -545,7 +545,7 @@ using TokenKind = holeyc::Parser::token;
 /* exclude unistd.h for Visual Studio compatibility. */
 #define YY_NO_UNISTD_H
 
-/* */ 
+/* */
 #line 550 "lexer.yy.cc"
 
 #define INITIAL 0
@@ -986,15 +986,15 @@ case 50:
 /* rule 50 can match eol */
 YY_RULE_SETUP
 #line 94 "holeyc.l"
-{ errChrEmpty(lineNum, colNum); 
+{ errChrEmpty(lineNum, colNum);
                 colNum = 1;
                 lineNum++; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 #line 97 "holeyc.l"
-{ 
-		            yylval->transToken = 
+{
+		            yylval->transToken =
 		            new IDToken(lineNum, colNum, yytext);
 		            colNum += yyleng;
 		            return TokenKind::ID; }
@@ -1012,7 +1012,7 @@ YY_RULE_SETUP
 				            errIntOverflow(lineNum, colNum);
 				            intVal = INT_MAX;
 			          }
-			          yylval->transToken = 
+			          yylval->transToken =
 			              new IntLitToken(lineNum, colNum, intVal);
 			          colNum += yyleng;
 			          return TokenKind::INTLITERAL; }
@@ -1021,7 +1021,7 @@ case 53:
 YY_RULE_SETUP
 #line 118 "holeyc.l"
 {
-   		          yylval->transToken = 
+   		          yylval->transToken =
                     new StrToken(lineNum, colNum, yytext);
 		            this->colNum += yyleng;
 		            return TokenKind::STRLITERAL; }
@@ -1062,9 +1062,9 @@ YY_RULE_SETUP
 case 59:
 YY_RULE_SETUP
 #line 142 "holeyc.l"
-{ /* Comment. Ignore. Don't need to update 
-                   line num since everything up to end of 
-                   line will never by part of a report*/ 
+{ /* Comment. Ignore. Don't need to update
+                   line num since everything up to end of
+                   line will never by part of a report*/
 		   colNum += yyleng;
 		  }
 	YY_BREAK

@@ -209,22 +209,22 @@ namespace holeyc {
     /// Symbol semantic values.
     union semantic_type
     {
-#line 62 "holeyc.yy"
+#line 61 "holeyc.yy"
 
    holeyc::Token *                     	  transToken;
    holeyc::IDToken *                   	  transIDToken;
    holeyc::ProgramNode *               	  transProgram;
-   std::list<DeclNode *> *     	  transDeclList;
+   std::list<holeyc::DeclNode *> *     	  transDeclList;
    holeyc::DeclNode *                  	  transDecl;
    holeyc::VarDeclNode *               	  transVarDecl;
    holeyc::TypeNode *                  	  transType;
    holeyc::IDNode *                    	  transID;
 	 holeyc::FnDeclNode *                   transFnDecl;
-	 std::list<FormalDeclNode *> * 	transFormalsList;
-	 std::list<FormalDeclNode *> * 	transFormals;
+	 std::list<holeyc::FormalDeclNode *> * 	transFormalsList;
+	 std::list<holeyc::FormalDeclNode *> * 	transFormals;
 	 holeyc::FormalDeclNode *               transFormalDecl;
-	 std::list<StmtNode *> *        transFnBody;
-	 std::list<StmtNode *> *        transStmtList;
+	 std::list<holeyc::StmtNode *> *        transFnBody;
+	 std::list<holeyc::StmtNode *> *        transStmtList;
 	 holeyc::StmtNode * 			          		transStmt;
 	 holeyc::ExpNode * 						          transExp;
 	 holeyc::AssignExpNode * 								transAssignExp;
@@ -234,7 +234,7 @@ namespace holeyc {
 	 holeyc::IntLitToken *									transIntToken;
 	 holeyc::CharLitToken *									transCharToken;
 	 holeyc::StrToken *											transStrToken;
-	 std::list<ExpNode*> *					transExpList;
+	 std::list<holeyc::ExpNode*> *					transExpList;
 
 #line 240 "grammar.hh"
 
