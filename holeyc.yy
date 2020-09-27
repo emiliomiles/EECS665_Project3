@@ -55,7 +55,6 @@ The %union directive is a way to specify the
 set of possible types that might be used as
 translation attributes in the syntax-directed
 translations.
-
 TODO: You will have to add to this list to
 create new translation value types
 */
@@ -197,7 +196,7 @@ globals 	: globals decl            //done
 		| /* epsilon */
 		  {
 		  std::list<DeclNode *> * startingGlobals;
-		  startingGlobals = new std::list<DeclNode *>();
+		  startingGlobals = new list<DeclNode *>();
 	 	  $$ = startingGlobals;
 		  }
 		;
@@ -263,7 +262,7 @@ fnDecl 		: type id formals fnBody           //done
 
 formals 	: LPAREN RPAREN             //done
 		  {
-				$$ = new std::list<FormalDeclNode*>;
+				$$ = new list<FormalDeclNode*>;
 			}
 		| LPAREN formalsList RPAREN
 		  {
@@ -273,7 +272,7 @@ formals 	: LPAREN RPAREN             //done
 
 formalsList	: formalDecl              //done
 		  {
-				$$ = new std::list<FormalDeclNode*>;
+				$$ = new list<FormalDeclNode*>;
 				$$->push_back($1);
 			}
 		| formalDecl COMMA formalsList
@@ -295,7 +294,7 @@ fnBody		: LCURLY stmtList RCURLY         //done
 stmtList 	: /* epsilon */             //done
 		  {
 				std::list<StmtNode *> * startingStmt;
-				startingStmt = new std::list<StmtNode *>;
+				startingStmt = new list<StmtNode *>;
 				$$ = startingStmt;
 			}
 		| stmtList stmt
@@ -359,51 +358,51 @@ exp		: assignExp             //done
 			}
 		| exp DASH exp
 		  {
-				$$ = new MinusNode($2->line(), $2->col(), $1, $3);
+				$$ = new MinusNode($1, $3);
 			}
 		| exp CROSS exp
 		  {
-				$$ = new PlusNode($2->line(), $2->col(), $1, $3);
+				$$ = new PlusNode($1, $3);
 			}
 		| exp STAR exp
 		  {
-				$$ = new TimesNode($2->line(), $2->col(), $1, $3);
+				$$ = new TimesNode($1, $3);
 			}
 		| exp SLASH exp
 		  {
-				$$ = new DivideNode($2->line(), $2->col(), $1, $3);
+				$$ = new DivideNode($1, $3);
 			}
 		| exp AND exp
 		  {
-				$$ = new AndNode($1->line(), $1->col(), $1, $3);
+				 $$ = new AndNode($1, $3);
 			}
 		| exp OR exp
 		  {
-				$$ = new OrNode($2->line(), $2->col(), $1, $3);
+				 $$ = new OrNode($1, $3);
 			}
 		| exp EQUALS exp
 		  {
-				$$ = new EqualsNode($2->line(), $2->col(), $1, $3);
+				$$ = new EqualsNode($1, $3);
 			}
 		| exp NOTEQUALS exp
 		  {
-				$$ = new NotEqualsNode($2->line(), $2->col(), $1, $3);
+				$$ = new NotEqualsNode($1, $3);
 			}
 		| exp GREATER exp
 		  {
-				$$ = new GreaterNode($2->line(), $2->col(), $1, $3);
+			  $$ = new GreaterNode($1, $3);
 			}
 		| exp GREATEREQ exp
 		  {
-				$$ = new GreaterEqNode($2->line(), $2->col(), $1, $3);
+				$$ = new GreaterEqNode($1, $3);
 			}
 		| exp LESS exp
 		  {
-				$$ = new LessNode($2->line(), $2->col(), $1, $3);
+				$$ = new LessNode($1, $3);
 			}
 		| exp LESSEQ exp
 		  {
-				$$ = new LessEqNode($2->line(), $2->col(), $1, $3);
+				$$ = new LessEqNode($1, $3);
 			}
 		| NOT exp
 		  {
@@ -420,12 +419,12 @@ exp		: assignExp             //done
 
 assignExp	: lval ASSIGN exp          //done
 		  {
-				$$ = new AssignExpNode($2->line(), $2->col(), $1, $3);
+				$$ = new AssignExpNode($1, $3);
 			}
 
 callExp		: id LPAREN RPAREN            //done
 		  {
-				$$ = new CallExpNode($1, new std::list<ExpNode*>);
+				$$ = new CallExpNode($1, new list<ExpNode*>);
 			}
 		| id LPAREN actualsList RPAREN
 		  {
@@ -457,7 +456,7 @@ term 		: lval            //done
 			}
 		| INTLITERAL
 			{
-				$$ = new IntLitNode($1);
+				$$ = new IntLitNode($1->line(), $1->col(), $1);
 			}
 		| STRLITERAL
 			{
@@ -465,15 +464,15 @@ term 		: lval            //done
 			}
 		| CHARLIT
 			{
-				$$ = new CharLitNode($1);
+				$$ = new CharLitNode($1->line(), $1->col(), $1);
 			}
 		| TRUE
 			{
-				$$ = new TrueNode($1->line(), $1->col());
+				$$ = new TrueNode($1);
 			}
 		| FALSE
 			{
-				$$ = new FalseNode($1->line(), $1->col());
+				$$ = new FalseNode($1);
 			}
 		| LPAREN exp RPAREN
 			{

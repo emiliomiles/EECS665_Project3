@@ -176,7 +176,9 @@ void IfElseStmtNode::unparse(std::ostream& out, int indent)
 	for (auto stmt: *myTrueList)
 		stmt->unparse(out, indent+1);
 	doIndent(out, indent);
-	out << "} else {" << endl;
+	out << "}" <<endl;
+	doIndent(out, indent);
+	out << "else {" << endl;
 	for (auto stmt: *myFalseList)
 		stmt->unparse(out, indent+1);
 	doIndent(out, indent);
@@ -218,14 +220,14 @@ void CallStmtNode::unparse(std::ostream& out, int indent)
 }
 
 
-void BinaryExpNode::unparse(std::ostream& out, int indent){
+/*void BinaryExpNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
 	out << "(";
 	myExp1->unparse(out, 0);
 	out << myOp();
 	myExp2->unparse(out, 0);
 	out << ")";
-}
+}*/
 
 void AssignExpNode::unparse(std::ostream& out, int indent)
 {

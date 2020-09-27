@@ -27,7 +27,7 @@ WHITESPACE [\040\t]
 LETTER [a-zA-Z]
 ESCAPEE [nt'"\\]
 
- /* */ 
+ /* */
 NOT_NL_OR_ESCAPEE [^\nnt"\\]
 
 NOT_NL_OR_DQ [^\n"]
@@ -75,8 +75,8 @@ true 		    { return makeBareToken(TokenKind::TRUE); }
 "!"	 	        { return makeBareToken(TokenKind::NOT); }
 "&&"          { return makeBareToken(TokenKind::AND); }
 "||"          { return makeBareToken(TokenKind::OR); }
-"=="          { return makeBareToken(TokenKind::NOTEQUALS); }
-"!="          { return makeBareToken(TokenKind::EQUALS); }
+"!="          { return makeBareToken(TokenKind::NOTEQUALS); }
+"=="          { return makeBareToken(TokenKind::EQUALS); }
 "<"		        { return makeBareToken(TokenKind::LESS); }
 "<="          { return makeBareToken(TokenKind::LESSEQ); }
 ">"		        { return makeBareToken(TokenKind::LESS); }
@@ -91,11 +91,11 @@ true 		    { return makeBareToken(TokenKind::TRUE); }
                 colNum += yyleng; }
 \'\t		      { return makeCharLitToken("'\t"); }
 \'[^\n\\]     { return makeCharLitToken(yytext); }
-(\'\n)|(\'\r\n)   { errChrEmpty(lineNum, colNum); 
+(\'\n)|(\'\r\n)   { errChrEmpty(lineNum, colNum);
                 colNum = 1;
                 lineNum++; }
-({LETTER}|_)({LETTER}|{DIGIT}|_)* { 
-		            yylval->transToken = 
+({LETTER}|_)({LETTER}|{DIGIT}|_)* {
+		            yylval->transToken =
 		            new IDToken(lineNum, colNum, yytext);
 		            colNum += yyleng;
 		            return TokenKind::ID; }
@@ -110,13 +110,13 @@ true 		    { return makeBareToken(TokenKind::TRUE); }
 				            errIntOverflow(lineNum, colNum);
 				            intVal = INT_MAX;
 			          }
-			          yylval->transToken = 
+			          yylval->transToken =
 			              new IntLitToken(lineNum, colNum, intVal);
 			          colNum += yyleng;
 			          return TokenKind::INTLITERAL; }
 
 \"({NOT_NL_OR_DQ_OR_ESC}|\\{ESCAPEE})*\" {
-   		          yylval->transToken = 
+   		          yylval->transToken =
                     new StrToken(lineNum, colNum, yytext);
 		            this->colNum += yyleng;
 		            return TokenKind::STRLITERAL; }
@@ -139,9 +139,9 @@ true 		    { return makeBareToken(TokenKind::TRUE); }
 
 [ \t]+	      { colNum += yyleng; }
 
-("#")[^\n]*	  { /* Comment. Ignore. Don't need to update 
-                   line num since everything up to end of 
-                   line will never by part of a report*/ 
+("#")[^\n]*	  { /* Comment. Ignore. Don't need to update
+                   line num since everything up to end of
+                   line will never by part of a report*/
 		   colNum += yyleng;
 		  }
 

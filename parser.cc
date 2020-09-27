@@ -918,7 +918,7 @@ namespace holeyc {
   case 41: // exp: exp AND exp
 #line 377 "holeyc.yy"
                   {
-				(yylhs.value.transExp) = new AndNode((yystack_[2].value.transExp)->line(), (yystack_[2].value.transExp)->col(), (yystack_[2].value.transExp), (yystack_[0].value.transExp));
+				(yylhs.value.transExp) = new AndNode((yystack_[1].value.transToken)->line(), (yystack_[1].value.transToken)->col(), (yystack_[2].value.transExp), (yystack_[0].value.transExp));
 			}
 #line 924 "parser.cc"
     break;
