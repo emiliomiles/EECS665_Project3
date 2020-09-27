@@ -189,17 +189,17 @@ private:
 class BinaryExpNode : public ExpNode
 {
 public:
-	BinaryExpNode(size_t l, size_t c, ExpNode* lhs, ExpNode* rhs) : ExpNode(l, c)
+	BinaryExpNode(size_t l, size_t c, ExpNode* ex1, ExpNode* ex2) : ExpNode(l, c)
 	{
-		this->myLhs = lhs;
-		this->myRhs = rhs;
+		this->myExp1 = ex1;
+		this->myExp2 = ex2;
 	}
 	virtual void unparse(std::ostream& out, int indent) override;
 	virtual string myOp() = 0;
 
 private:
-	ExpNode* myLhs;
-	ExpNode* myRhs;
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -262,12 +262,12 @@ class CharLitNode : public ExpNode
 public:
 	CharLitNode(CharLitToken* token) : ExpNode(token->line(), token->col() )
 	{
-		myInt = token->val();
+		myChar = token->val();
 	}
 	void unparse(std::ostream& out, int indent) override;
 
 private:
-	int myInt;
+	int myChar;
 };
 
 
@@ -340,6 +340,10 @@ public:
 
 private:
 	CallExpNode* myCall;
+
+	IDNode* myID;
+	list<ExpNode*>* myParams;
+
 };
 
 
@@ -514,6 +518,9 @@ public:
 	AndNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return " and "; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -523,6 +530,9 @@ public:
 	DivideNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return "/"; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -532,6 +542,9 @@ public:
 	EqualsNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return "=="; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -541,6 +554,9 @@ public:
 	GreaterEqNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return ">="; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -550,6 +566,9 @@ public:
 	GreaterNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return ">"; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 class LessNode : public BinaryExpNode
@@ -558,6 +577,9 @@ public:
 	LessNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return "<"; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 class LessEqNode : public BinaryExpNode
@@ -566,6 +588,9 @@ public:
 	LessEqNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return "<="; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -575,6 +600,9 @@ public:
 	MinusNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return "-"; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -584,6 +612,9 @@ public:
 	NotEqualsNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return "!="; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -593,6 +624,9 @@ public:
 	OrNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return "or"; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -602,6 +636,9 @@ public:
 	PlusNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return "+"; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -611,6 +648,9 @@ public:
 	TimesNode(size_t l, size_t c, ExpNode * exp1, ExpNode * exp2): BinaryExpNode(l, c, exp1, exp2){ }
 	string myOp() override { return "*"; }
 	void unparse(std::ostream& out, int indent) override;
+private:
+	ExpNode* myExp1;
+	ExpNode* myExp2;
 };
 
 
@@ -680,12 +720,12 @@ private:
 class FormalDeclNode : public DeclNode
 {
 public:
-	FormalDeclNode(TypeNode* type, IDNode* id) : DeclNode(type->line(), type->col()), myType(type), myId(id){}
+	FormalDeclNode(TypeNode* type, IDNode* id) : DeclNode(type->line(), type->col()), myType(type), myID(id){}
 	void unparse(std::ostream& out, int indent) override;
 
 private:
 	TypeNode * myType;
-	IDNode * myId;
+	IDNode * myID;
 };
 
 
@@ -695,16 +735,16 @@ private:
 class FnDeclNode : public DeclNode
 {
 public:
-	FnDeclNode(TypeNode* type, IDNode* id, std::list<FormalDeclNode*>* params, std::list<StmtNode*>* body):
-	DeclNode(type->line(), type->col()), myType(type), myId(id), myParams(params), myBody(body){}
+	FnDeclNode(TypeNode* type, IDNode* id, list<FormalDeclNode*>* params, list<StmtNode*>* body):
+	DeclNode(type->line(), type->col()), myType(type), myID(id), myParams(params), myBody(body){}
 	void unparse(std::ostream& out, int indent) override;
 	string GetType(){ return(myType->GetType()); }
 
 private:
 	TypeNode* myType;
-	IDNode* myId;
-	std::list<FormalDeclNode*>* myParams;
-	std::list<StmtNode*>* myBody;
+	IDNode* myID;
+	list<FormalDeclNode*>* myParams;
+	list<StmtNode*>* myBody;
 };
 
 
